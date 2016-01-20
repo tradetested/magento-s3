@@ -1,0 +1,12 @@
+{
+  "name": "arkade/magento-s3",
+  "description": "Use Amazon S3 as the file storage backend for your store.",
+  "type": "magento-module",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Thai Phan",
+      "email": "thai@arkade.com.au"
+    }
+  ]
+}
