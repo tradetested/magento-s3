@@ -23,6 +23,7 @@
                 <rewrite>
                     <file_storage>Arkade_S3_Model_Core_File_Storage</file_storage>
                     <file_storage_database>Arkade_S3_Model_Core_File_Storage_Database</file_storage_database>
+                    <file_storage_directory_database>Arkade_S3_Model_Core_File_Storage_Directory_Database</file_storage_directory_database>
                 </rewrite>
             </core>
             <cms>

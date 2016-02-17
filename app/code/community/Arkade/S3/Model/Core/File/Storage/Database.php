@@ -21,6 +21,23 @@ class Arkade_S3_Model_Core_File_Storage_Database extends Mage_Core_Model_File_St
         return parent::loadByFilename($filePath);
     }
 
+    /**
+     * Return directory listing
+     *
+     * @param string $directory
+     * @return mixed
+     */
+    public function getDirectoryFiles($directory)
+    {
+        $directory = Mage::helper('core/file_storage_database')->getMediaRelativePath($directory);
+
+        try {
+            return $this->_getResource()->getDirectoryFiles($directory);
+        } catch (Exception $e) {
+            return [];
+        }
+    }
+
     public function getId()
     {
         $storage = Mage::helper('core/file_storage')->getCurrentStorageCode();
