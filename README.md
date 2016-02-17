@@ -17,6 +17,7 @@ The following images are automatically saved to S3:
 * Product images
 * Generated thumbnails
 * WYSIWYG images
+* WYSIWYG videos
 * Category images
 
 ### Magento can now scale horizontally
