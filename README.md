@@ -1,14 +1,14 @@
 Arkade S3 Extension
 ===================
 
-Arkade's S3 extension for Magento allows retailers to upload their catalogue and WYSIWYG images straight to Amazon S3.
+Arkade's S3 extension for Magento allows retailers to upload their catalogue and WYSIWYG media assets (such as images and videos) straight to Amazon S3.
 
 Benefits
 --------
 
 ### Easy to use
 
-This extension is easy to use with little configuration! You only need to follow a few simple steps (and one of them is simply to create a copy of your images as a precaution) to get up and running!
+This extension is easy to use with little configuration! You only need to follow a few simple steps to get up and running!
 
 ### Sync all your media assets
 
