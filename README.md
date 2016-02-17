@@ -10,9 +10,9 @@ Benefits
 
 This extension is easy to use with little configuration! You only need to follow a few simple steps (and one of them is simply to create a copy of your images as a precaution) to get up and running!
 
-### Sync all your media images
+### Sync all your media assets
 
-The following images are automatically saved to S3:
+The following assets are automatically saved to S3:
 
 * Product images
 * Generated thumbnails
