@@ -1,3 +1,3 @@
 app/code/community/Arkade/* app/code/community/Arkade/
 app/etc/modules/*           app/etc/modules/
-shell/8                     shell/
+shell/*                     shell/
