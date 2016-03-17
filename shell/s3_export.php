@@ -5,11 +5,38 @@ class Arkade_S3_Shell_Export extends Mage_Shell_Abstract
 {
     protected function _validate()
     {
-        if ($this->getArg('dry-run') && $this->getArg('force')) {
-            echo "You can't use --dry-run and --force at the same time!\n";
+        $errors = [];
+
+        /** @var Arkade_S3_Helper_Data $helper */
+        $helper = Mage::helper('arkade_s3');
+        if (is_null($helper->getAccessKey())) {
+            $errors[] = 'You have not provided an AWS access key ID. You can do so using our config script.';
+        }
+        if (is_null($helper->getSecretKey())) {
+            $errors[] = 'You have not provided an AWS secret access key. You can do so using our config script.';
+        }
+        if (is_null($helper->getBucket())) {
+            $errors[] = 'You have not provided an S3 bucket. You can do so using our config script.';
+        }
+        if (is_null($helper->getRegion())) {
+            $errors[] = 'You have not provided an S3 region. You can do so using our config script.';
+        }
+        if (!$helper->getClient()->isBucketAvailable($helper->getBucket())) {
+            $errors[] = 'The AWS credentials you provided did not work. Please review your details and try again. You can do so using our config script.';
         }
 
-        parent::_validate();
+        if ($this->getArg('dry-run') && $this->getArg('force')) {
+            $errors[] = "You can't use --dry-run and --force at the same time!\n";
+        }
+
+        if (empty($errors)) {
+            parent::_validate();
+        } else {
+            foreach ($errors as $error) {
+                echo $error . "\n";
+                die();
+            }
+        }
     }
 
     public function run()
@@ -71,7 +98,7 @@ class Arkade_S3_Shell_Export extends Mage_Shell_Abstract
 
 \033[1mOPTIONS\033[0m
     --force
-        This parameter will legit upload your media files to S3.
+        This parameter will legit upload all your media files to S3.
 
         \033[1mNOTE:\033[0m Please make sure to back up your media files before you run this!
         You never know what might happen!
