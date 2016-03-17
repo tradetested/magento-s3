@@ -5,20 +5,9 @@ class Arkade_S3_Shell_Config extends Mage_Shell_Abstract
 {
     protected function _validate()
     {
-        if (!isset($this->_args['h']) && !isset($this->_args['help'])) {
+        if (!empty($this->getArg('h')) && !empty($this->getArg('help')) && !empty($this->getArg('list'))) {
             $errors = [];
-            if (empty($this->getArg('access-key'))) {
-                $errors[] = 'You must specify the "access-key" parameter.';
-            }
-            if (empty($this->getArg('secret-key'))) {
-                $errors[] = 'You must specify the "secret-key" parameter.';
-            }
-            if (empty($this->getArg('bucket'))) {
-                $errors[] = 'You must specify the "bucket" parameter.';
-            }
-            if (empty($this->getArg('region'))) {
-                $errors[] = 'You must specify the "region" parameter.';
-            } else {
+            if ($this->getArg('region')) {
                 /** @var Arkade_S3_Helper_S3 $helper */
                 $helper = Mage::helper('arkade_s3/s3');
                 if (!$helper->isValidRegion($this->getArg('region'))) {
@@ -31,6 +20,7 @@ class Arkade_S3_Shell_Config extends Mage_Shell_Abstract
                 }
 
                 echo "\nusage: php s3_config.php [options]\n\n";
+                echo "    --list                         list current AWS credentials\n";
                 echo "    --access-keyid <access-key-id> a valid AWS access key ID\n";
                 echo "    --secret-key <secret-key>      a valid AWS secret access key\n";
                 echo "    --bucket <bucket>              an S3 bucket name\n";
@@ -45,12 +35,47 @@ class Arkade_S3_Shell_Config extends Mage_Shell_Abstract
 
     public function run()
     {
-        Mage::getConfig()->saveConfig('arkade_s3/general/access_key', $this->getArg('access-key'));
-        Mage::getConfig()->saveConfig('arkade_s3/general/secret_key', $this->getArg('secret-key'));
-        Mage::getConfig()->saveConfig('arkade_s3/general/bucket', $this->getArg('bucket'));
-        Mage::getConfig()->saveConfig('arkade_s3/general/region', $this->getArg('region'));
+        if (empty($this->getArg('list'))) {
+            $updatedCredentials = false;
+            if (!empty($this->getArg('access-key'))) {
+                Mage::getConfig()->saveConfig('arkade_s3/general/access_key', $this->getArg('access-key'));
+                $updatedCredentials = true;
+            }
+            if (!empty($this->getArg('secret-key'))) {
+                Mage::getConfig()->saveConfig('arkade_s3/general/secret_key', $this->getArg('secret-key'));
+                $updatedCredentials = true;
+            }
+            if (!empty($this->getArg('bucket'))) {
+                Mage::getConfig()->saveConfig('arkade_s3/general/bucket', $this->getArg('bucket'));
+                $updatedCredentials = true;
+            }
+            if (!empty($this->getArg('region'))) {
+                Mage::getConfig()->saveConfig('arkade_s3/general/region', $this->getArg('region'));
+                $updatedCredentials = true;
+            }
 
-        echo "You have successfully updated your S3 credentials.\n";
+            if ($updatedCredentials) {
+                echo "You have successfully updated your S3 credentials.\n";
+
+                // Refresh the config cache
+                Mage::app()->getConfig()->reinit();
+            } else {
+                echo $this->usageHelp();
+            }
+        } else {
+            /** @var Arkade_S3_Helper_Data $helper */
+            $helper = Mage::helper('arkade_s3');
+            echo 'Here are your AWS credentials.';
+            if ($this->getArg('access-key') || $this->getArg('secret-key') || $this->getArg('bucket') || $this->getArg('region')) {
+                echo " \033[1mNo configuration setting was updated.\033[0m";
+            }
+            echo "\n\n";
+
+            echo sprintf("Access Key ID:     %s\n", $helper->getAccessKey());
+            echo sprintf("Secret Access Key: %s\n", $helper->getSecretKey());
+            echo sprintf("Bucket:            %s\n", $helper->getBucket());
+            echo sprintf("Region:            %s\n", $helper->getRegion());
+        }
 
         return $this;
     }
@@ -67,13 +92,19 @@ class Arkade_S3_Shell_Config extends Mage_Shell_Abstract
     their Magento installation.
 
 \033[1mSYNOPSIS\033[0m
-    php s3_config.php [--access-key-id <access-key-id>]
+    php s3_config.php [--list]
+                      [--access-key-id <access-key-id>]
                       [--secret-key <secret-key>]
                       [--bucket <bucket>]
                       [--region <region>]
                       [-h] [--help]
 
 \033[1mOPTIONS\033[0m
+    --list
+        Lists whatever credentials for S3 you have provided for Magento.
+
+        \033[1mNOTE:\033[0m Using this option will cause the script to ignore the other options.
+
     --access-key-id <access-key-id>
         You must provide a valid AWS access key ID. You can generate access keys
         using the AWS IAM (https://console.aws.amazon.com/iam/home).
