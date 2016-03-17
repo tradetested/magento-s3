@@ -1,7 +1,7 @@
 <?php
-require_once 'abstract.php';
+require_once './abstract.php';
 
-class Arkade_Shell_S3 extends Mage_Shell_Abstract
+class Arkade_S3_Shell_Export extends Mage_Shell_Abstract
 {
     public function run()
     {
@@ -39,5 +39,5 @@ class Arkade_Shell_S3 extends Mage_Shell_Abstract
     }
 }
 
-$shell = new Arkade_Shell_S3();
+$shell = new Arkade_S3_Shell_Export();
 $shell->run();
