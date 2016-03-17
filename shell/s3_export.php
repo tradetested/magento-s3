@@ -24,14 +24,14 @@ class Arkade_S3_Shell_Export extends Mage_Shell_Abstract
             foreach ($files as $file) {
                 echo $file['directory'] . '/' . $file['filename'] . "\n";
             }
-            if (!$this->getArgs('dry-run')) {
+            if (!$this->getArg('dry-run')) {
                 $destinationModel->importFiles($files);
             }
             $offset += count($files);
         }
         unset($files);
 
-        if (!$this->getArgs('dry-run')) {
+        if (!$this->getArg('dry-run')) {
             Mage::getConfig()->saveConfig('system/media_storage_configuration/media_storage', 2);
         }
 
