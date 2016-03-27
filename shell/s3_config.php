@@ -37,8 +37,8 @@ class Arkade_S3_Shell_Config extends Mage_Shell_Abstract
     {
         if (empty($this->getArg('list'))) {
             $updatedCredentials = false;
-            if (!empty($this->getArg('access-key'))) {
-                Mage::getConfig()->saveConfig('arkade_s3/general/access_key', $this->getArg('access-key'));
+            if (!empty($this->getArg('access-key-id'))) {
+                Mage::getConfig()->saveConfig('arkade_s3/general/access_key', $this->getArg('access-key-id'));
                 $updatedCredentials = true;
             }
             if (!empty($this->getArg('secret-key'))) {
@@ -66,7 +66,7 @@ class Arkade_S3_Shell_Config extends Mage_Shell_Abstract
             /** @var Arkade_S3_Helper_Data $helper */
             $helper = Mage::helper('arkade_s3');
             echo 'Here are your AWS credentials.';
-            if ($this->getArg('access-key') || $this->getArg('secret-key') || $this->getArg('bucket') || $this->getArg('region')) {
+            if ($this->getArg('access-key-id') || $this->getArg('secret-key') || $this->getArg('bucket') || $this->getArg('region')) {
                 echo " \033[1mNo configuration setting was updated.\033[0m";
             }
             echo "\n\n";
