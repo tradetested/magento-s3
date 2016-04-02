@@ -59,4 +59,11 @@ class Arkade_S3_Helper_Core_File_Storage_Database extends Mage_Core_Helper_File_
         }
         return false;
     }
+
+    public function saveUploadedFile($result = array())
+    {
+        $file = parent::saveUploadedFile($result);
+        $file = ltrim($file, '/');
+        return $file;
+    }
 }
