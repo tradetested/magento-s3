@@ -60,6 +60,14 @@ class Arkade_S3_Helper_Core_File_Storage_Database extends Mage_Core_Helper_File_
         return false;
     }
 
+    /**
+     * Removes any forward slashes from the start of the uploaded file name.
+     * This addresses a bug where category pages were being saved with duplicate
+     * slashes, e.g. catalog/category//tswifty_4.jpg.
+     * 
+     * @param array $result
+     * @return string
+     */
     public function saveUploadedFile($result = array())
     {
         $file = parent::saveUploadedFile($result);
