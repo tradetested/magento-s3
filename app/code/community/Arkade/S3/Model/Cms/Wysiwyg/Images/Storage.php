@@ -37,6 +37,33 @@ class Arkade_S3_Model_Cms_Wysiwyg_Images_Storage extends Mage_Cms_Model_Wysiwyg_
         return parent::getFilesCollection($path, $type);
     }
 
+    public function resizeFile($source, $keepRatio = true)
+    {
+        if ($dest = parent::resizeFile($source, $keepRatio)) {
+            if ($this->getS3Helper()->checkS3Usage()) {
+                /** @var Arkade_S3_Model_Core_File_Storage_S3 $storageModel */
+                $storageModel = $this->getS3Helper()->getStorageDatabaseModel();
+
+                $filePath = ltrim(str_replace(Mage::getConfig()->getOptions()->getMediaDir(), '', $dest), DS);
+
+                $storageModel->saveFile($filePath);
+            }
+        }
+        return $dest;
+    }
+
+    public function getThumbsPath($filePath = false)
+    {
+        $mediaRootDir = Mage::getConfig()->getOptions()->getMediaDir();
+        $thumbnailDir = $this->getThumbnailRoot();
+
+        if ($filePath && strpos($filePath, $mediaRootDir) === 0) {
+            $thumbnailDir .= DS . ltrim(dirname(substr($filePath, strlen($mediaRootDir))), DS);
+        }
+
+        return $thumbnailDir;
+    }
+
     /**
      * @return Arkade_S3_Helper_Core_File_Storage_Database
      */
