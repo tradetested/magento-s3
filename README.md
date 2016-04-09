@@ -19,6 +19,7 @@ The following assets are automatically saved to S3:
 * WYSIWYG images
 * WYSIWYG videos
 * Category images
+* Favicon
 
 ### Magento can now scale horizontally
 
