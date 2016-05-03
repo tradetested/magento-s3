@@ -31,6 +31,11 @@
                     <wysiwyg_images_storage>Arkade_S3_Model_Cms_Wysiwyg_Images_Storage</wysiwyg_images_storage>
                 </rewrite>
             </cms>
+            <captcha>
+                <rewrite>
+                    <zend>Arkade_S3_Model_Captcha_Zend</zend>
+                </rewrite>
+            </captcha>
         </models>
         <helpers>
             <arkade_s3>
