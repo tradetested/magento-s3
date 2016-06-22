@@ -20,6 +20,7 @@ The following assets are automatically saved to S3:
 * WYSIWYG videos
 * Category images
 * Favicon
+* CAPTCHA images
 
 ### Magento can now scale horizontally
 
@@ -39,7 +40,7 @@ Support
 
 We have a [Troubleshooting](https://github.com/arkadedigital/magento-s3/wiki/Troubleshooting) page on our wiki that we'll keep up to date with any issues that the community might have with the extension.
 
-If you can't find the answer you're looking for, however, feel free to [create a GitHub issue](https://github.com/arkadedigital/magento-s3/issues/new) or [send us an email](mailto:support@arkade.com.au) for support regarding this extension.
+If you can't find the answer you're looking for, however, feel free to [create a GitHub issue](https://github.com/arkadedigital/magento-s3/issues/new) for support regarding this extension.
 
 FAQs
 ----
